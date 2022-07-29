@@ -3,12 +3,12 @@ const cors = require("cors");
 const { v4: uuidv4 } = require("uuid");
 
 const app = express();
-
 app.use(cors());
 app.use(express.json());
 
 const users = [];
 
+// Middlewares
 function checksExistsUserAccount(request, response, next) {
   const { username } = request.headers;
   const user = users.find((user) => user.username === username);
@@ -28,7 +28,6 @@ app.post("/users", (request, response) => {
   if (userAlreadyExists) {
     return response.status(400).json({ error: "Username already exists!" });
   }
-
   const id = uuidv4();
 
   const user = {
