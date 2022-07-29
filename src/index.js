@@ -54,15 +54,15 @@ app.post("/todos", checksExistsUserAccount, (request, response) => {
   const { user } = request;
   const { title, date } = request.body;
 
-  const id = uuidv4();
+  // const id = uuidv4();
   // const id = "1";
-  const done = false;
+  // const done = false;
   // const deadline = new Date(date + " 00:00");
 
   const createTodo = {
-    id,
+    id: uuidv4(),
     title,
-    done,
+    done: false,
     deadline: new Date(date),
     created_at: new Date(),
   };
@@ -87,9 +87,7 @@ app.put("/todos/:id", checksExistsUserAccount, (request, response) => {
 
   todo.title = title;
   todo.deadline = deadline;
-  return response
-    .status(201)
-    .json({ title: todo.title, deadline: todo.deadline, done: todo.done });
+  return response.status(200).json(todo);
 
   // user.todos.forEach((todo) => {
   //   if (todo.id === id) {
