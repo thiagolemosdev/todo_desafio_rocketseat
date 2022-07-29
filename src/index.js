@@ -52,9 +52,8 @@ app.post("/todos", checksExistsUserAccount, (request, response) => {
   const { user } = request;
   const { title, date } = request.body;
 
-  console.log(date);
-
   const id = uuidv4();
+  // const id = "1";
   const done = false;
   const deadline = new Date(date + " 00:00");
 
@@ -67,12 +66,32 @@ app.post("/todos", checksExistsUserAccount, (request, response) => {
   };
 
   user.todos.push(createTodo);
-  console.log(user.todos);
   return response.status(201).send();
 });
 
+// Alterar title e deadline
 app.put("/todos/:id", checksExistsUserAccount, (request, response) => {
-  // Complete aqui
+  const { user } = request;
+  const { title, date } = request.body;
+  const { id } = request.params;
+
+  const deadline = new Date(date + " 00:00");
+
+  const todo = user.todos.find((todo) => todo.id === id);
+
+  if (!todo) {
+    return response.status(400).json({ erro: "To do not found!" });
+  }
+  todo.title = title;
+  todo.deadline = deadline;
+  return response.status(201).send();
+
+  // user.todos.forEach((todo) => {
+  //   if (todo.id === id) {
+  //     todo.title = title;
+  //     todo.deadline = deadline;
+  //   }
+  // });
 });
 
 app.patch("/todos/:id/done", checksExistsUserAccount, (request, response) => {
