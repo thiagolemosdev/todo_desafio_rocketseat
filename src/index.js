@@ -47,7 +47,7 @@ app.get("/todos", checksExistsUserAccount, (request, response) => {
   return response.status(201).json(user.todos);
 });
 
-//Create todos
+//Create to dos
 app.post("/todos", checksExistsUserAccount, (request, response) => {
   const { user } = request;
   const { title, date } = request.body;
@@ -94,8 +94,19 @@ app.put("/todos/:id", checksExistsUserAccount, (request, response) => {
   // });
 });
 
+// Alterar done
 app.patch("/todos/:id/done", checksExistsUserAccount, (request, response) => {
-  // Complete aqui
+  const { user } = request;
+  const { id } = request.params;
+
+  const todo = user.todos.find((todo) => todo.id === id);
+
+  if (!todo) {
+    return response.status(400).json({ erro: "To do not found!" });
+  }
+
+  todo.done = true;
+  return response.status(201).send();
 });
 
 app.delete("/todos/:id", checksExistsUserAccount, (request, response) => {
