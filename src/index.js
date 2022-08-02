@@ -20,6 +20,21 @@ function checksExistsUserAccount(request, response, next) {
   return next();
 }
 
+function checksCreateTodosUserAvailability(request, response, next) {
+  const { user } = request;
+  if (user.todo.lenth > 9) {
+    response;
+  }
+}
+
+function checksTodoExists(request, response, next) {
+  // Complete aqui
+}
+
+function findUserById(request, response, next) {
+  // Complete aqui
+}
+
 // Criar usuario
 app.post("/users", (request, response) => {
   const { name, username } = request.body;
@@ -28,12 +43,11 @@ app.post("/users", (request, response) => {
   if (userAlreadyExists) {
     return response.status(400).json({ error: "Username already exists!" });
   }
-  const id = uuidv4();
 
   const user = {
     name,
     username,
-    id,
+    id: uuidv4(),
     todos: [],
   };
 
